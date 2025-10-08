@@ -14,4 +14,9 @@ export default [
     name: "statue_model",
     path: "/statue.gltf",
   },
+  {
+    type: "gltfModel",
+    name: "tree_model",
+    path: "/tree.gltf",
+  },
 ];

@@ -26,8 +26,11 @@ export default class Experience {
     this.resources = new ResourcesLoader(resource);
 
     this.scene = new THREE.Scene();
+    this.light = new THREE.AmbientLight(0xffffff, 3);
     this.camera = new Camera();
     this.renderer = new Renderer();
+
+    this.scene.add(this.light);
 
     this.world = new World();
 

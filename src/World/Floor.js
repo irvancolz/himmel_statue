@@ -1,5 +1,7 @@
 import Experience from "../Experience";
 import * as THREE from "three";
+import { WORLD_DIAMETER } from "../const";
+
 export default class Floor {
   constructor() {
     this.experience = new Experience();
@@ -9,7 +11,7 @@ export default class Floor {
     this.geometry = null;
     this.material = null;
 
-    this.width = 50;
+    this.width = WORLD_DIAMETER;
     this.subdivision = this.width * 4;
 
     this.debugConfig = {
@@ -42,7 +44,7 @@ export default class Floor {
   }
 
   initMaterial() {
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE.MeshLambertMaterial({
       color: this.debugConfig.color,
     });
     this.material = material;
