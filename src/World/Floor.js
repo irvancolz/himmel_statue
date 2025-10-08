@@ -9,42 +9,42 @@ export default class Floor {
     this.geometry = null;
     this.material = null;
 
-    this.width = 10;
+    this.width = 50;
     this.subdivision = this.width * 4;
 
-    this.init();
+    this.debugConfig = {
+      color: "#20c57e",
+    };
 
+    this.init();
+    this._registerDebugger();
+  }
+
+  _registerDebugger() {
     if (this.debug.active) {
       this.debugFolder = this.debug.pane.addFolder({
         title: "Floor",
       });
 
       this.debugFolder
-        .addBinding(this, "width", {
-          min: 1,
-          max: 20,
-          step: 1,
-        })
-        .on("change", (ev) => {
-          if (ev.last) this.init();
+        .addBinding(this.debugConfig, "color")
+        .on("change", () => {
+          this.material.color.set(this.debugConfig.color);
         });
     }
   }
 
   initGeometry() {
-    const geometry = new THREE.PlaneGeometry(
-      this.width,
-      this.width,
-      this.subdivision,
-      this.subdivision
-    );
+    const geometry = new THREE.PlaneGeometry(this.width, this.width);
     geometry.rotateX(-Math.PI * 0.5);
 
     this.geometry = geometry;
   }
 
   initMaterial() {
-    const material = new THREE.MeshBasicMaterial();
+    const material = new THREE.MeshBasicMaterial({
+      color: this.debugConfig.color,
+    });
     this.material = material;
   }
 

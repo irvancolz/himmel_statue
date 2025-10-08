@@ -9,4 +9,9 @@ export default [
     name: "cloud_noise_texture",
     path: "/cloud.jpg",
   },
+  {
+    type: "gltfModel",
+    name: "statue_model",
+    path: "/statue.gltf",
+  },
 ];

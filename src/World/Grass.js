@@ -10,6 +10,7 @@ export default class Grass {
     this.count = 100;
     this.time = this.experience.time;
     this.texture = texture;
+    // this.texture.colorSpace = THREE.SRGBColorSpace;
 
     this.initGeometry();
     this.initMaterial();
