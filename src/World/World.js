@@ -1,10 +1,10 @@
 import Experience from "../Experience";
 import Floor from "./Floor";
-import Grass from "./Grass";
 import Sky from "./Sky";
 import Tree from "./Tree";
 import Statue from "./Statue";
 import Bushes from "./Bushes";
+import Flower from "./Flower";
 
 export default class World {
   constructor() {
@@ -17,7 +17,7 @@ export default class World {
   }
 
   init() {
-    this.grass = new Grass(this.resources.resources.grass_color_texture);
+    this.flower = new Flower(this.resources.resources.grass_color_texture);
     this.floor = new Floor();
     this.sky = new Sky();
     this.tree = new Tree();
@@ -26,8 +26,8 @@ export default class World {
   }
 
   update() {
-    if (this.grass) {
-      this.grass.update();
+    if (this.flower) {
+      this.flower.update();
     }
   }
 

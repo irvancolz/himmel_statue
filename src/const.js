@@ -1,1 +1,1 @@
-export const WORLD_DIAMETER = 100;
+export const WORLD_DIAMETER = 80;

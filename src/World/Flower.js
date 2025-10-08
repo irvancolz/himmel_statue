@@ -3,27 +3,30 @@ import * as THREE from "three";
 import fragmentShader from "../Shaders/Grass/fragment.glsl";
 import vertexShader from "../Shaders/Grass/vertex.glsl";
 
-export default class Grass {
+export default class Flower {
+  #RADIUS = 10;
+  #COUNT = 10_000;
   constructor(texture) {
     this.experience = new Experience();
     this.scene = this.experience.scene;
-    this.count = 100;
+
     this.time = this.experience.time;
     this.texture = texture;
     // this.texture.colorSpace = THREE.SRGBColorSpace;
 
-    this.initGeometry();
-    this.initMaterial();
-    this.initMesh();
+    this.init();
   }
 
-  initGeometry() {
+  init() {
+    this._addFlower();
+    this._setFlowerPosition();
+  }
+
+  _addFlower() {
     const geometry = new THREE.PlaneGeometry();
     geometry.translate(0, 0.5, 0);
     this.geometry = geometry;
-  }
 
-  initMaterial() {
     this.uniforms = {
       uTime: { value: 0 },
       uGrassTexture: new THREE.Uniform(this.texture),
@@ -38,34 +41,32 @@ export default class Grass {
       side: THREE.DoubleSide,
     });
     this.material = material;
-  }
 
-  initMesh() {
     const mesh = new THREE.InstancedMesh(
       this.geometry,
       this.material,
-      Math.pow(this.count, 2)
+      this.#COUNT
     );
     this.mesh = mesh;
     this.scene.add(mesh);
+  }
 
+  _setFlowerPosition() {
     this.dummy = new THREE.Object3D();
-    for (let i = 0; i < Math.pow(this.count, 2); i++) {
-      this.dummy.position.set(
-        (Math.random() - 0.5) * 10,
-        0,
-        (Math.random() - 0.5) * 10
-      );
+    for (let i = 0; i < this.#COUNT; i++) {
+      const angle = Math.random() * Math.PI * 2;
+
+      const x = Math.sin(angle) * Math.random() * this.#RADIUS;
+      const z = Math.cos(angle) * Math.random() * this.#RADIUS;
+      this.dummy.position.set(x, 0, z);
 
       this.dummy.scale.setScalar(0.5 + Math.random());
 
       this.dummy.rotation.y = Math.random() * Math.PI;
 
       this.dummy.updateMatrix();
-      mesh.setMatrixAt(i, this.dummy.matrix);
-      mesh.instanceMatrix.needsUpdate = true;
+      this.mesh.setMatrixAt(i, this.dummy.matrix);
     }
-    mesh.instanceMatrix.needsUpdate = true;
   }
 
   update() {
