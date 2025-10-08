@@ -48,6 +48,10 @@ export default class Floor {
       color: this.debugConfig.color,
     });
     this.material = material;
+
+    // this.material.onBeforeCompile = (shader) => {
+    //   console.log(shader.fragmentShader);
+    // };
   }
 
   initMesh() {
@@ -56,12 +60,6 @@ export default class Floor {
   }
 
   init() {
-    if (this.material != null || this.geometry != null) {
-      this.material.dispose();
-      this.geometry.dispose();
-      this.scene.remove(this.mesh);
-    }
-
     this.initGeometry();
     this.initMaterial();
     this.initMesh();

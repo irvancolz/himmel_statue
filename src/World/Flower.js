@@ -1,7 +1,7 @@
 import Experience from "../Experience";
 import * as THREE from "three";
-import fragmentShader from "../Shaders/Grass/fragment.glsl";
-import vertexShader from "../Shaders/Grass/vertex.glsl";
+import fragmentShader from "../Shaders/Flower/fragment.glsl";
+import vertexShader from "../Shaders/Flower/vertex.glsl";
 
 export default class Flower {
   #RADIUS = 10;

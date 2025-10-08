@@ -20,8 +20,9 @@ export default class Camera {
       0.1,
       1000
     );
-    camera.position.z = 5;
-    camera.position.y = 5;
+    camera.position.z = 20;
+    camera.position.y = 8;
+    camera.position.x = -10;
     this.instance = camera;
     this.scene.add(this.instance);
   }
