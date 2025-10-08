@@ -2,49 +2,44 @@ import * as THREE from "three";
 import { WORLD_DIAMETER } from "../const";
 import Experience from "../Experience";
 
-class Tree {
+class Bushes {
   #RADIUS = WORLD_DIAMETER * 0.5;
-  #TREE_COUNT = 150;
-  #FOREST_DEPTH = WORLD_DIAMETER * 0.1;
+  #BUSHES_COUNT = 200;
+  #BUSHES_DEPTH = WORLD_DIAMETER * 0.15;
   constructor() {
     this.experience = new Experience();
-    this.resources = this.experience.resources.resources;
     this.scene = this.experience.scene;
 
     this.init();
   }
 
   init() {
-    this._extractModelParts();
-    this._addTree();
-    this._setTreePosition();
+    this._addBushes();
+    this._setBushesPosition();
   }
 
-  _extractModelParts() {
-    this.resources.tree_model.scene.traverse((el) => {
-      if (el.isMesh) {
-        this.geometry = el.geometry;
-        this.material = el.material;
-      }
+  _addBushes() {
+    this.geometry = new THREE.OctahedronGeometry(1, 1);
+    this.geometry.translate(0, 1, 0.0);
+    this.material = new THREE.MeshStandardMaterial({
+      color: 0x00ff00,
     });
-  }
 
-  _addTree() {
     this.mesh = new THREE.InstancedMesh(
       this.geometry,
       this.material,
-      this.#TREE_COUNT
+      this.#BUSHES_COUNT
     );
     this.scene.add(this.mesh);
   }
 
-  _setTreePosition() {
+  _setBushesPosition() {
     const dummy = new THREE.Object3D();
 
-    for (let i = 0; i < this.#TREE_COUNT; i++) {
+    for (let i = 0; i < this.#BUSHES_COUNT; i++) {
       const angle = Math.random() * Math.PI * 2;
 
-      const offset = Math.random() * this.#FOREST_DEPTH;
+      const offset = Math.random() * this.#BUSHES_DEPTH;
       let x = Math.sin(angle) * this.#RADIUS;
       x += x > 0 ? -1 * offset : offset;
       let z = Math.cos(angle) * this.#RADIUS;
@@ -52,7 +47,7 @@ class Tree {
       dummy.position.x = x;
       dummy.position.z = z;
 
-      dummy.rotateY(Math.random() * Math.PI * 0.5);
+      dummy.scale.setScalar(0.75 + Math.random());
 
       dummy.updateWorldMatrix();
 
@@ -61,4 +56,4 @@ class Tree {
   }
 }
 
-export default Tree;
+export default Bushes;

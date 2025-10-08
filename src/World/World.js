@@ -4,6 +4,7 @@ import Grass from "./Grass";
 import Sky from "./Sky";
 import Tree from "./Tree";
 import Statue from "./Statue";
+import Bushes from "./Bushes";
 
 export default class World {
   constructor() {
@@ -21,6 +22,7 @@ export default class World {
     this.sky = new Sky();
     this.tree = new Tree();
     this.statue = new Statue();
+    this.bushes = new Bushes();
   }
 
   update() {
