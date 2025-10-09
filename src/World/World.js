@@ -24,7 +24,7 @@ export default class World {
     this.tree = new Tree();
     this.statue = new Statue();
     this.bushes = new Bushes();
-    this.grass = new Grass();
+    // this.grass = new Grass();
   }
 
   update() {
