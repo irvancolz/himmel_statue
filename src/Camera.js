@@ -23,6 +23,9 @@ export default class Camera {
     camera.position.z = 20;
     camera.position.y = 8;
     camera.position.x = -10;
+
+    camera.position.multiplyScalar(0.3);
+
     this.instance = camera;
     this.scene.add(this.instance);
   }

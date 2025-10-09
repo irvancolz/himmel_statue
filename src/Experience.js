@@ -7,6 +7,7 @@ import World from "./World/World";
 import resource from "./Utils/resource";
 import ResourcesLoader from "./Utils/ResourceLoader";
 import Debug from "./Debug";
+import Light from "./Light";
 
 let instance = null;
 
@@ -26,11 +27,9 @@ export default class Experience {
     this.resources = new ResourcesLoader(resource);
 
     this.scene = new THREE.Scene();
-    this.light = new THREE.AmbientLight(0xffffff, 3);
     this.camera = new Camera();
+    this.light = new Light();
     this.renderer = new Renderer();
-
-    this.scene.add(this.light);
 
     this.world = new World();
 

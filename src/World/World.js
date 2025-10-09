@@ -31,6 +31,9 @@ export default class World {
     if (this.flower) {
       this.flower.update();
     }
+    if (this.bushes) {
+      this.bushes.update();
+    }
   }
 
   resize() {}

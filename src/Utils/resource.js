@@ -10,6 +10,11 @@ export default [
     path: "/cloud.jpg",
   },
   {
+    type: "texture",
+    name: "leaves_alpha_texture",
+    path: "/leaves.png",
+  },
+  {
     type: "gltfModel",
     name: "statue_model",
     path: "/statue.gltf",
