@@ -18,12 +18,12 @@ export default class World {
   }
 
   init() {
-    this.flower = new Flower(this.resources.resources.grass_color_texture);
-    this.floor = new Floor();
+    // this.flower = new Flower(this.resources.resources.grass_color_texture);
+    // this.floor = new Floor();
     this.sky = new Sky();
-    this.tree = new Tree();
-    this.statue = new Statue();
-    this.bushes = new Bushes();
+    // this.tree = new Tree();
+    // this.statue = new Statue();
+    // this.bushes = new Bushes();
     // this.grass = new Grass();
   }
 
@@ -33,6 +33,9 @@ export default class World {
     }
     if (this.bushes) {
       this.bushes.update();
+    }
+    if (this.sky) {
+      this.sky.update();
     }
   }
 
