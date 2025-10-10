@@ -4,6 +4,8 @@ uniform vec3 uDayHighColor;
 uniform vec3 uDayLowColor;
 uniform vec3 uNightHighColor;
 uniform vec3 uNightLowColor;
+uniform vec3 uSunColor;
+uniform vec3 uSunDirection;
 
 void main() {
 
@@ -13,7 +15,7 @@ void main() {
 
     gl_Position = projectedPosition;
 
-    vec3 sunDirection = vec3(0., 1., 0.);
+    vec3 sunDirection = uSunDirection;
 
     float sunIntensity = dot(normal, sunDirection);
     sunIntensity = clamp(sunIntensity, 0., 1.);
@@ -31,6 +33,10 @@ void main() {
     vec3 nightColor = mix(nightColorHigh, nightColorLow, nightIntensity);
 
     color = mix(nightColor, dayColor, sunIntensity);
+
+    float sun = clamp(sunIntensity, 0., 1.);
+    sun = pow(sun, 5.);
+    color = mix(color, uSunColor, sun);
 
     vColor = color;
 }
