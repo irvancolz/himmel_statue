@@ -19,6 +19,7 @@ export default class World {
 
   init() {
     this.floor = new Floor();
+
     this.bushes = new Bushes();
     this.flower = new Flower(this.resources.resources.grass_color_texture);
     this.sky = new Sky();
@@ -29,15 +30,13 @@ export default class World {
   }
 
   update() {
-    if (this.flower) {
-      this.flower.update();
-    }
-    if (this.bushes) {
-      this.bushes.update();
-    }
-    if (this.sky) {
-      this.sky.update();
-    }
+    if (this.flower) this.flower.update();
+
+    if (this.bushes) this.bushes.update();
+
+    if (this.sky) this.sky.update();
+
+    if (this.grass) this.grass.update();
   }
 
   resize() {}

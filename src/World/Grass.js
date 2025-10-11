@@ -9,18 +9,19 @@ export default class Grass {
   constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
+    this.time = this.experience.time;
     this.debug = this.experience.debug;
 
-    this.density = 40;
+    this.density = 80;
     this.width = WORLD_DIAMETER;
     this.count = this.density * this.width ** 2;
     this.position = new THREE.Vector3();
 
     this.rotation = 0;
 
-    this.BLADE_HEIGHT = 0.75;
-    this.BLADE_WIDTH = 0.3;
-    this.BLADE_HEIGHT_VARIATION = 0.5;
+    this.BLADE_HEIGHT = 0.5;
+    this.BLADE_WIDTH = 0.25;
+    this.BLADE_HEIGHT_VARIATION = 0.2;
 
     this.positionsArray = [];
     this.uvsArray = [];
@@ -48,6 +49,9 @@ export default class Grass {
     this.uniforms = {
       uColor: new THREE.Uniform(new THREE.Color(this.debugConfig.color)),
       uTime: new THREE.Uniform(0),
+      uNoiseTexture: new THREE.Uniform(
+        this.experience.resources.resources.noise_texture
+      ),
     };
     this.material = new CustomShaderMaterial({
       vertexShader,
@@ -55,7 +59,6 @@ export default class Grass {
       uniforms: this.uniforms,
       baseMaterial: THREE.MeshStandardMaterial,
     });
-
     // this.material.uniforms.uFieldSize.value = this.width;
   }
 
@@ -169,10 +172,8 @@ export default class Grass {
     this.init(false);
   }
 
-  update(src) {
-    const playerPos = src.getPlayerPosition();
-    this.states.updateUniforms(this.material.uniforms);
-    this.mesh.position.set(playerPos.x, 0, playerPos.z);
+  update() {
+    this.uniforms.uTime.value = this.time.elapsed;
   }
 
   dispose() {

@@ -1,6 +1,7 @@
 attribute vec2 aCenter;
 
 uniform float uTime;
+uniform sampler2D uNoiseTexture;
 
 varying vec2 vUv;
 
@@ -16,10 +17,14 @@ void main() {
   vec4 modelPosition = modelMatrix * vec4(position, 1.);
   modelPosition.xz += newCenter;
 
+  float noise = texture(uNoiseTexture, uv).r;
+
+  float displacement = (sin(uTime * .002 + noise * 10.) * .25) * modelPosition.y;
+  modelPosition.x += displacement;
+  modelPosition.z += displacement;
+
   float angleToCamera = atan(modelCenter.x - cameraPosition.x, modelCenter.z - cameraPosition.z);
   modelPosition.xz = getRotatePivot2d(modelPosition.xz, angleToCamera, modelCenter.xz);
-
-  // modelPosition.xz += aCenter;
 
   vec4 modelViewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * modelViewPosition;

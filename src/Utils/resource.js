@@ -6,8 +6,8 @@ export default [
   },
   {
     type: "texture",
-    name: "cloud_noise_texture",
-    path: "./cloud.jpg",
+    name: "noise_texture",
+    path: "./noise.webp",
   },
   {
     type: "texture",
