@@ -19,7 +19,7 @@ class Bushes {
 
     this.debugConfig = {
       // color: "#fff",
-      color: "#20c57e",
+      color: "#13ae6b",
     };
 
     this.init();

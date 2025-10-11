@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { WORLD_DIAMETER } from "../const";
 import Experience from "../Experience";
+import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import fragmentShader from "../Shaders/Grass/fragment.glsl";
 import vertexShader from "../Shaders/Grass/vertex.glsl";
 
@@ -8,16 +9,17 @@ export default class Grass {
   constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
+    this.debug = this.experience.debug;
 
-    this.density = 100;
+    this.density = 40;
     this.width = WORLD_DIAMETER;
     this.count = this.density * this.width ** 2;
     this.position = new THREE.Vector3();
 
     this.rotation = 0;
 
-    this.BLADE_HEIGHT = 0.5;
-    this.BLADE_WIDTH = 0.02;
+    this.BLADE_HEIGHT = 0.75;
+    this.BLADE_WIDTH = 0.3;
     this.BLADE_HEIGHT_VARIATION = 0.5;
 
     this.positionsArray = [];
@@ -26,13 +28,32 @@ export default class Grass {
     this.indiciesArray = [];
     this.centersArray = [];
 
+    this.debugConfig = {
+      color: "#2e8e2e",
+    };
+
     this.init();
   }
 
+  _registerDebugger() {
+    if (!this.debug.active) return;
+
+    const f = this.debug.pane.addFolder({ title: "grass", expanded: false });
+    f.addBinding(this.debugConfig, "color").on("change", () => {
+      this.uniforms.uColor.value.set(this.debugConfig.color);
+    });
+  }
+
   initMaterial() {
-    this.material = new THREE.ShaderMaterial({
+    this.uniforms = {
+      uColor: new THREE.Uniform(new THREE.Color(this.debugConfig.color)),
+      uTime: new THREE.Uniform(0),
+    };
+    this.material = new CustomShaderMaterial({
       vertexShader,
       fragmentShader,
+      uniforms: this.uniforms,
+      baseMaterial: THREE.MeshStandardMaterial,
     });
 
     // this.material.uniforms.uFieldSize.value = this.width;
@@ -89,16 +110,18 @@ export default class Grass {
       new THREE.Float32BufferAttribute(new Float32Array(this.centersArray), 2)
     );
 
-    this.geometry.setIndex(this.indiciesArray);
     this.geometry.computeVertexNormals();
   }
 
   init() {
+    this._registerDebugger();
     this.initMaterial();
     this.initGeometry();
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.frustumCulled = false;
+    this.mesh.receiveShadow = true;
+    // this.mesh.castShadow = true;
 
     this.scene.add(this.mesh);
   }
@@ -182,20 +205,10 @@ export default class Grass {
       .copy(yawUnitVec)
       .multiplyScalar((this.BLADE_WIDTH / 2) * -1);
 
-    const tl = new THREE.Vector3()
-      .copy(yawUnitVec)
-      .multiplyScalar((MID_WIDTH / 2) * 1);
-
-    const tr = new THREE.Vector3()
-      .copy(yawUnitVec)
-      .multiplyScalar((MID_WIDTH / 2) * -1);
-
     const tc = new THREE.Vector3()
       .add(tipBendUnitVec)
       .multiplyScalar(TIP_OFFSET);
 
-    tl.y += height * 0.6;
-    tr.y += height * 0.6;
     tc.y += height;
 
     // Vertex Colors
@@ -206,22 +219,10 @@ export default class Grass {
     const verts = [
       { pos: bl.toArray(), uv: uv, color: black },
       { pos: br.toArray(), uv: uv, color: black },
-      { pos: tr.toArray(), uv: uv, color: gray },
-      { pos: tl.toArray(), uv: uv, color: gray },
       { pos: tc.toArray(), uv: uv, color: white },
     ];
 
-    const indices = [
-      vArrOffset,
-      vArrOffset + 1,
-      vArrOffset + 2,
-      vArrOffset + 2,
-      vArrOffset + 4,
-      vArrOffset + 3,
-      vArrOffset + 3,
-      vArrOffset,
-      vArrOffset + 2,
-    ];
+    const indices = [vArrOffset, vArrOffset + 1, vArrOffset + 2];
 
     return { verts, indices };
   }
