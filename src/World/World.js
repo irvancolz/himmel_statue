@@ -18,12 +18,12 @@ export default class World {
   }
 
   init() {
-    this.flower = new Flower(this.resources.resources.grass_color_texture);
     this.floor = new Floor();
-    this.sky = new Sky();
-    this.tree = new Tree();
-    this.statue = new Statue();
     this.bushes = new Bushes();
+    // this.flower = new Flower(this.resources.resources.grass_color_texture);
+    // this.sky = new Sky();
+    // this.tree = new Tree();
+    // this.statue = new Statue();
 
     // this.grass = new Grass();
   }

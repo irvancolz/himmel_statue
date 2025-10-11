@@ -20,6 +20,7 @@ export default class Renderer {
     this.instance.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.instance.setSize(this.size.width, this.size.height);
     this.instance.render(this.scene, this.camera.instance);
+    this.instance.shadowMap.enabled = true;
   }
 
   update() {

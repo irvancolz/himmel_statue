@@ -15,7 +15,7 @@ export default class Floor {
     this.subdivision = this.width * 4;
 
     this.debugConfig = {
-      color: "#20c57e",
+      color: "#1a9c64",
     };
 
     this.init();
@@ -26,6 +26,7 @@ export default class Floor {
     if (this.debug.active) {
       this.debugFolder = this.debug.pane.addFolder({
         title: "Floor",
+        expanded: false,
       });
 
       this.debugFolder
@@ -48,10 +49,6 @@ export default class Floor {
       color: this.debugConfig.color,
     });
     this.material = material;
-
-    // this.material.onBeforeCompile = (shader) => {
-    //   console.log(shader.fragmentShader);
-    // };
   }
 
   initMesh() {
