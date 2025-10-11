@@ -47,6 +47,8 @@ export default class Flower {
       this.material,
       this.#COUNT
     );
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
     this.mesh = mesh;
     this.scene.add(mesh);
   }

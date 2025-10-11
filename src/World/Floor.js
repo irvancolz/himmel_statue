@@ -55,6 +55,7 @@ export default class Floor {
     const mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh = mesh;
     this.mesh.receiveShadow = true;
+    mesh.castShadow = true;
   }
 
   init() {

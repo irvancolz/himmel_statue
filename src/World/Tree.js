@@ -35,6 +35,8 @@ class Tree {
       this.material,
       this.#TREE_COUNT
     );
+    this.mesh.receiveShadow = true;
+    this.mesh.castShadow = true;
     this.scene.add(this.mesh);
   }
 
