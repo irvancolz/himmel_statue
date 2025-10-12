@@ -7,6 +7,7 @@ import Bushes from "./Bushes";
 import Flower from "./Flower";
 import Grass from "./Grass";
 import Fog from "./Fog";
+import Fireflies from "./Fireflies";
 
 export default class World {
   constructor() {
@@ -20,8 +21,8 @@ export default class World {
 
   init() {
     this.floor = new Floor();
-    2;
     this.sky = new Sky();
+    this.fireflies = new Fireflies();
 
     this.bushes = new Bushes();
     this.flower = new Flower(this.resources.resources.grass_color_texture);

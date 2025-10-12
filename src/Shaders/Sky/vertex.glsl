@@ -18,21 +18,21 @@ void main() {
     vec3 sunDirection = uSunDirection;
 
     float sunIntensity = dot(normal, sunDirection);
-    sunIntensity = clamp(sunIntensity, 0., 1.);
+    sunIntensity = sunIntensity * .5 + .5;
 
     vec3 color = vec3(sunIntensity);
 
     vec3 dayColorHigh = uDayHighColor;
     vec3 dayColorLow = uDayLowColor;
-    float dayIntensity = smoothstep(.5, 1., sunIntensity * 4.);
+    float dayIntensity = smoothstep(.5, 1., sunIntensity);
     vec3 dayColor = mix(dayColorLow, dayColorHigh, dayIntensity);
 
     vec3 nightColorHigh = uNightHighColor;
     vec3 nightColorLow = uNightLowColor;
-    float nightIntensity = smoothstep(0., .5, sunIntensity * 4.);
+    float nightIntensity = smoothstep(0., .5, sunIntensity);
     vec3 nightColor = mix(nightColorHigh, nightColorLow, nightIntensity);
 
-    color = mix(nightColor, dayColor, sunIntensity);
+    color = nightColorHigh;
 
     float sun = clamp(sunIntensity, 0., 1.);
     sun = pow(sun, 5.);
