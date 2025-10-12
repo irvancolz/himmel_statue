@@ -2,6 +2,7 @@ import * as THREE from "three";
 import Experience from "../Experience";
 import fragmentShader from "../Shaders/Sky/fragment.glsl";
 import vertexShader from "../Shaders/Sky/vertex.glsl";
+import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 
 class Sky {
   constructor() {
@@ -75,6 +76,7 @@ class Sky {
       fragmentShader,
       side: THREE.DoubleSide,
       uniforms: this.uniforms,
+      // baseMaterial: THREE.MeshBasicMaterial,
     });
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);

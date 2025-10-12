@@ -25,7 +25,7 @@ class Light {
 
   _registerDebugger() {
     if (!this.debug.active) return;
-    const f = this.debug.pane.addFolder({ title: "light", expanded: true });
+    const f = this.debug.pane.addFolder({ title: "light", expanded: false });
 
     const ambientF = f.addFolder({ title: "ambient" });
     ambientF.addBinding(this.debugConfig, "ambientColor").on("change", () => {

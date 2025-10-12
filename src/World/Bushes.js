@@ -8,7 +8,7 @@ import fragmentShader from "../Shaders/Bushes/fragment.glsl";
 
 class Bushes {
   #RADIUS = WORLD_DIAMETER * 0.5;
-  #BUSHES_COUNT = 100;
+  #BUSHES_COUNT = 200;
   #BUSHES_DEPTH = WORLD_DIAMETER * 0.15;
   constructor() {
     this.experience = new Experience();
@@ -34,7 +34,7 @@ class Bushes {
   _registerDebugger() {
     if (!this.debug.active) return;
 
-    const f = this.debug.pane.addFolder({ title: "bushes", expanded: true });
+    const f = this.debug.pane.addFolder({ title: "bushes", expanded: false });
     f.addBinding(this.debugConfig, "color").on("change", () => {
       this.uniforms.uBushesColor.value.set(this.debugConfig.color);
     });
@@ -139,7 +139,8 @@ class Bushes {
 
       dummy.rotateY(Math.random() * Math.PI * 0.5);
 
-      // dummy.scale.setScalar(0.5 + Math.random());
+      const scale = 0.3 + Math.random() * 1.5;
+      dummy.scale.setScalar(scale);
 
       dummy.updateWorldMatrix();
 

@@ -12,7 +12,7 @@ export default class Flower {
 
     this.time = this.experience.time;
     this.texture = texture;
-    // this.texture.colorSpace = THREE.SRGBColorSpace;
+    this.texture.colorSpace = THREE.SRGBColorSpace;
 
     this.init();
   }

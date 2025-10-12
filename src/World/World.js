@@ -6,6 +6,7 @@ import Statue from "./Statue";
 import Bushes from "./Bushes";
 import Flower from "./Flower";
 import Grass from "./Grass";
+import Fog from "./Fog";
 
 export default class World {
   constructor() {
@@ -19,13 +20,13 @@ export default class World {
 
   init() {
     this.floor = new Floor();
+    2;
+    this.sky = new Sky();
 
     this.bushes = new Bushes();
     this.flower = new Flower(this.resources.resources.grass_color_texture);
-    this.sky = new Sky();
     this.tree = new Tree();
     this.statue = new Statue();
-
     this.grass = new Grass();
   }
 
