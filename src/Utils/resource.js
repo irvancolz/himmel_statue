@@ -15,6 +15,16 @@ export default [
     path: "./leaves.png",
   },
   {
+    type: "texture",
+    name: "butterfly_texture",
+    path: "./butterfly.png",
+  },
+  {
+    type: "gltfModel",
+    name: "butterfly_model",
+    path: "./butterfly.glb",
+  },
+  {
     type: "gltfModel",
     name: "statue_model",
     path: "./statue.gltf",

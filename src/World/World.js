@@ -7,7 +7,7 @@ import Bushes from "./Bushes";
 import Flower from "./Flower";
 import Grass from "./Grass";
 import Fog from "./Fog";
-import Fireflies from "./Fireflies";
+import Butterflies from "./Butterflies";
 
 export default class World {
   constructor() {
@@ -22,7 +22,7 @@ export default class World {
   init() {
     this.floor = new Floor();
     this.sky = new Sky();
-    this.fireflies = new Fireflies();
+    this.butterflies = new Butterflies();
 
     this.bushes = new Bushes();
     this.flower = new Flower(this.resources.resources.grass_color_texture);
@@ -39,6 +39,8 @@ export default class World {
     if (this.sky) this.sky.update();
 
     if (this.grass) this.grass.update();
+
+    if (this.butterflies) this.butterflies.update();
   }
 
   resize() {}
