@@ -2,6 +2,7 @@ import Experience from "../Experience";
 import * as THREE from "three";
 import fragmentShader from "../Shaders/Butterfly/fragment.glsl";
 import vertexShader from "../Shaders/Butterfly/vertex.glsl";
+import { WORLD_DIAMETER } from "../const";
 
 class ButterFlies {
   #COUNT = 10;
@@ -18,10 +19,14 @@ class ButterFlies {
 
     this.uniforms = {
       uTime: new THREE.Uniform(0),
+      uNoiseTexture: new THREE.Uniform(this.resources.fbm_texture),
       uButterflyTexture: new THREE.Uniform(this.texture),
     };
 
-    this.positionArray = new Float32Array(this.#COUNT * 3);
+    this.angleArray = new Float32Array(this.#COUNT);
+    this.radiusArray = new Float32Array(this.#COUNT);
+    this.speedArray = new Float32Array(this.#COUNT);
+    this.directionArray = new Float32Array(this.#COUNT);
 
     this.init();
   }
@@ -39,27 +44,41 @@ class ButterFlies {
     this._addButterFlies();
   }
 
-  _setButterFliesPosition() {
-    const radius = 15;
-    const dummy = new THREE.Object3D();
+  _calcButterflyPosition() {
+    const radius = WORLD_DIAMETER * 0.5 * 0.75;
+
     for (let i = 0; i < this.#COUNT; i++) {
-      const i3 = i * 3;
+      const angle = Math.random() * Math.PI * 2;
+      const r = Math.random() * radius;
+      const speed = Math.random();
+      const direction = Math.random() - 0.5 > 0 ? 1 : -1;
 
-      const x = (Math.random() - 0.5) * 2 * radius;
-      const z = (Math.random() - 0.5) * 2 * radius;
+      this.angleArray[i] = angle;
+      this.radiusArray[i] = r;
+      this.speedArray[i] = speed;
+      this.directionArray[i] = direction;
+    }
+  }
 
-      const y = Math.random() * radius * 0.5;
-      dummy.position.set(x, y, z);
+  _setButterFliesPosition() {
+    this.dummy = new THREE.Object3D();
+    for (let i = 0; i < this.#COUNT; i++) {
+      const x = Math.sin(this.angleArray[i]) * this.radiusArray[i];
+      const z = Math.cos(this.angleArray[i]) * this.radiusArray[i];
+      const y = Math.random() * 2 + 0.3;
+      this.dummy.position.set(x, y, z);
 
-      dummy.rotateY(Math.random() * Math.PI * 0.5);
+      // this.dummy.rotateY(this.angleArray[i]);
 
-      dummy.updateMatrix();
+      this.dummy.updateMatrix();
 
-      this.mesh.setMatrixAt(i, dummy.matrix);
+      this.mesh.setMatrixAt(i, this.dummy.matrix);
     }
   }
 
   _addButterFlies() {
+    this._calcButterflyPosition();
+
     this.model.scene.traverse((el) => {
       if (el.isMesh) this.geometry = el.geometry;
     });
@@ -85,6 +104,40 @@ class ButterFlies {
 
   update() {
     this.uniforms.uTime.value = this.time.elapsed;
+
+    for (let i = 0; i < this.#COUNT; i++) {
+      this.mesh.getMatrixAt(i, this.dummy.matrix);
+
+      this.dummy.matrix.decompose(
+        this.dummy.position,
+        this.dummy.quaternion,
+        this.dummy.scale
+      );
+
+      const speed = 0.0001 * this.speedArray[i] * this.directionArray[i];
+      const angle = this.time.elapsed * speed + this.angleArray[i];
+
+      const x = Math.sin(angle) * this.radiusArray[i];
+      const z = Math.cos(angle) * this.radiusArray[i];
+
+      this.dummy.position.x = x;
+      this.dummy.position.z = z;
+
+      // fly forward
+      const target = new THREE.Vector3(
+        Math.sin(angle + 0.01) * this.radiusArray[i],
+        this.dummy.position.y,
+        Math.cos(angle + 0.01) * this.radiusArray[i]
+      );
+      this.dummy.lookAt(target);
+
+      this.dummy.updateMatrix();
+
+      this.mesh.setMatrixAt(i, this.dummy.matrix);
+      this.mesh.instanceMatrix.needsUpdate = true;
+
+      this.mesh.computeBoundingSphere();
+    }
   }
 }
 

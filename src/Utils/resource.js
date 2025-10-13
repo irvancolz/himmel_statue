@@ -11,6 +11,11 @@ export default [
   },
   {
     type: "texture",
+    name: "fbm_texture",
+    path: "./fbm.png",
+  },
+  {
+    type: "texture",
     name: "leaves_alpha_texture",
     path: "./leaves.png",
   },
