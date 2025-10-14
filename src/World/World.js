@@ -25,7 +25,7 @@ export default class World {
     this.butterflies = new Butterflies();
 
     this.bushes = new Bushes();
-    this.flower = new Flower(this.resources.resources.grass_color_texture);
+    this.flower = new Flower();
     this.tree = new Tree();
     this.statue = new Statue();
     this.grass = new Grass();

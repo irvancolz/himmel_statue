@@ -99,6 +99,7 @@ class Bushes {
       uTime: new THREE.Uniform(0),
       uLeavesTexture: new THREE.Uniform(this.resources.leaves_alpha_texture),
       uBushesColor: new THREE.Uniform(new THREE.Color(this.debugConfig.color)),
+      uNoiseTexture: new THREE.Uniform(this.resources.noise_texture),
     };
 
     this.material = new CustomShaderMaterial({

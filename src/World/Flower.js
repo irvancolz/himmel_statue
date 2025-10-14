@@ -6,7 +6,7 @@ import vertexShader from "../Shaders/Flower/vertex.glsl";
 export default class Flower {
   #RADIUS = 10;
   #COUNT = 10_000;
-  constructor(texture) {
+  constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.resources = this.experience.resources.resources;
