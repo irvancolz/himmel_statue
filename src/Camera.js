@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import Experience from "./Experience";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { WORLD_DIAMETER } from "./const";
 
 export default class Camera {
   constructor() {
@@ -21,10 +22,10 @@ export default class Camera {
       1000
     );
     camera.position.z = 20;
-    camera.position.y = 8;
+    camera.position.y = 15;
     camera.position.x = -10;
 
-    camera.position.multiplyScalar(0.3);
+    camera.position.multiplyScalar(0.45);
 
     this.instance = camera;
     this.scene.add(this.instance);
@@ -33,6 +34,10 @@ export default class Camera {
   addControls() {
     this.controls = new OrbitControls(this.instance, this.canvas);
     this.controls.enableDamping = true;
+    this.controls.minPolarAngle = Math.PI * 0.25;
+    this.controls.maxPolarAngle = Math.PI * 0.45;
+    this.controls.maxDistance = WORLD_DIAMETER * 0.4;
+    this.controls.minDistance = 1;
   }
 
   update() {
