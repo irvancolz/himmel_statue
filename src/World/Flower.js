@@ -9,9 +9,10 @@ export default class Flower {
   constructor(texture) {
     this.experience = new Experience();
     this.scene = this.experience.scene;
+    this.resources = this.experience.resources.resources;
 
     this.time = this.experience.time;
-    this.texture = texture;
+    this.texture = this.resources.grass_color_texture;
     this.texture.colorSpace = THREE.SRGBColorSpace;
 
     this.init();
@@ -30,6 +31,7 @@ export default class Flower {
     this.uniforms = {
       uTime: { value: 0 },
       uGrassTexture: new THREE.Uniform(this.texture),
+      uNoiseTexture: new THREE.Uniform(this.resources.noise_texture),
     };
 
     const material = new THREE.ShaderMaterial({

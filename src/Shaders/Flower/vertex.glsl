@@ -1,6 +1,10 @@
 uniform float uTime;
+uniform sampler2D uNoiseTexture;
 
 varying vec2 vUv;
+
+#include ../Includes/getWorldUV.glsl
+
 void main() {
 
   vec4 mvPosition = vec4(position, 1.0);
@@ -9,11 +13,12 @@ void main() {
   mvPosition = instanceMatrix * mvPosition;
   #endif
 
-  float dispPower = 1.0 - cos(uv.y * 3.1416 / 2.0);
-  float displacement = sin(mvPosition.z + uTime * .002) * (.1 * dispPower);
+  vec2 worldUV = getWorldUV(mvPosition.xz);
+  float noise = texture(uNoiseTexture, worldUV).r;
+
+  float displacement = (sin(uTime * .002 + noise * 10.) * .2) * uv.y;
   mvPosition.z += displacement;
-  mvPosition.x += displacement * uv.y;
-  mvPosition.y += displacement * uv.y;
+  mvPosition.x += displacement;
 
   vec4 modelViewPosition = modelViewMatrix * mvPosition;
   gl_Position = projectionMatrix * modelViewPosition;
