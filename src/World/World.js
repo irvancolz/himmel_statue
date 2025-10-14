@@ -36,7 +36,7 @@ export default class World {
 
     if (this.bushes) this.bushes.update();
 
-    if (this.sky) this.sky.update();
+    // if (this.sky) this.sky.update();
 
     if (this.grass) this.grass.update();
 
