@@ -5,7 +5,7 @@ import vertexShader from "../Shaders/Butterfly/vertex.glsl";
 import { WORLD_DIAMETER } from "../const";
 
 class ButterFlies {
-  #COUNT = 10;
+  #COUNT = 15;
   constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
@@ -26,6 +26,8 @@ class ButterFlies {
     this.angleArray = new Float32Array(this.#COUNT);
     this.radiusArray = new Float32Array(this.#COUNT);
     this.speedArray = new Float32Array(this.#COUNT);
+    this.heightArray = new Float32Array(this.#COUNT);
+    this.delayArray = new Float32Array(this.#COUNT);
     this.directionArray = new Float32Array(this.#COUNT);
 
     this.init();
@@ -49,10 +51,14 @@ class ButterFlies {
 
     for (let i = 0; i < this.#COUNT; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const r = Math.random() * radius;
+      const r = 0.3 + Math.random() * radius;
       const speed = Math.random();
       const direction = Math.random() - 0.5 > 0 ? 1 : -1;
+      const height = 1 + Math.random() * 5;
+      const delay = Math.random() * 10;
 
+      this.delayArray[i] = delay;
+      this.heightArray[i] = height;
       this.angleArray[i] = angle;
       this.radiusArray[i] = r;
       this.speedArray[i] = speed;
@@ -65,10 +71,11 @@ class ButterFlies {
     for (let i = 0; i < this.#COUNT; i++) {
       const x = Math.sin(this.angleArray[i]) * this.radiusArray[i];
       const z = Math.cos(this.angleArray[i]) * this.radiusArray[i];
-      const y = Math.random() * 2 + 0.3;
+      const y = this.heightArray[i];
       this.dummy.position.set(x, y, z);
 
-      // this.dummy.rotateY(this.angleArray[i]);
+      //todo: set size on model
+      this.dummy.scale.setScalar(0.5);
 
       this.dummy.updateMatrix();
 
@@ -122,12 +129,15 @@ class ButterFlies {
 
       this.dummy.position.x = x;
       this.dummy.position.z = z;
+      this.dummy.position.y =
+        this.heightArray[i] +
+        Math.sin(this.time.elapsed * (0.0005 * this.delayArray[i])) * 0.5;
 
       // fly forward
       const target = new THREE.Vector3(
-        Math.sin(angle + 0.01) * this.radiusArray[i],
+        Math.sin(angle + 0.01 * this.directionArray[i]) * this.radiusArray[i],
         this.dummy.position.y,
-        Math.cos(angle + 0.01) * this.radiusArray[i]
+        Math.cos(angle + 0.01 * this.directionArray[i]) * this.radiusArray[i]
       );
       this.dummy.lookAt(target);
 

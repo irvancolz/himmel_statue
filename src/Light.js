@@ -7,7 +7,7 @@ class Light {
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
 
-    this.sunDirection = new THREE.Vector3(-0.7, 0.2, 0).normalize();
+    this.sunDirection = new THREE.Vector3(-0.3, 0.3, 0).normalize();
     this.sunDistance = 50;
     this.progress = 0;
     this.timeOfDay = 0;
@@ -15,7 +15,7 @@ class Light {
 
     this.debugConfig = {
       sunColor: "#ecf7fd",
-      sunIntensity: 1,
+      sunIntensity: 3,
       ambientColor: "#fff",
       ambientIntensity: 2,
     };
