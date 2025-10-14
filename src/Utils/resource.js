@@ -2,7 +2,7 @@ export default [
   {
     type: "texture",
     name: "grass_color_texture",
-    path: "./grass.png",
+    path: "./flower.png",
   },
   {
     type: "texture",
