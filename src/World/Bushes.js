@@ -7,38 +7,40 @@ import vertexShader from "../Shaders/Bushes/vertex.glsl";
 import fragmentShader from "../Shaders/Bushes/fragment.glsl";
 
 class Bushes {
-  #RADIUS = WORLD_DIAMETER * 0.5;
-  #BUSHES_COUNT = 200;
-  #BUSHES_DEPTH = WORLD_DIAMETER * 0.15;
-  constructor() {
+  constructor(count = 1, color = "#13ae6b") {
+    this.count = count;
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.resources = this.experience.resources.resources;
-    this.debug = this.experience.debug;
     this.time = this.experience.time;
 
-    this.debugConfig = {
-      // color: "#fff",
-      color: "#13ae6b",
-    };
+    this.color = color;
+
+    // this.debug = this.experience.debug;
+    // this.debugConfig = {
+    //   color: "#13ae6b",
+    // };
+
+    this.positions = [];
+    this.rotations = [];
+    this.scales = [];
 
     this.init();
   }
 
   init() {
-    this._registerDebugger();
+    // this._registerDebugger();
     this._addBushes();
-    this._setBushesPosition();
   }
 
-  _registerDebugger() {
-    if (!this.debug.active) return;
+  // _registerDebugger() {
+  //   if (!this.debug.active) return;
 
-    const f = this.debug.pane.addFolder({ title: "bushes", expanded: false });
-    f.addBinding(this.debugConfig, "color").on("change", () => {
-      this.uniforms.uBushesColor.value.set(this.debugConfig.color);
-    });
-  }
+  //   const f = this.debug.pane.addFolder({ title: "bushes", expanded: false });
+  //   f.addBinding(this, "color").on("change", () => {
+  //     this.updateColor(this.color);
+  //   });
+  // }
 
   _createGeometry() {
     const geometries = [];
@@ -98,7 +100,7 @@ class Bushes {
     this.uniforms = {
       uTime: new THREE.Uniform(0),
       uLeavesTexture: new THREE.Uniform(this.resources.leaves_alpha_texture),
-      uBushesColor: new THREE.Uniform(new THREE.Color(this.debugConfig.color)),
+      uBushesColor: new THREE.Uniform(new THREE.Color(this.color)),
       uNoiseTexture: new THREE.Uniform(this.resources.noise_texture),
     };
 
@@ -115,32 +117,101 @@ class Bushes {
     this.mesh = new THREE.InstancedMesh(
       this.geometry,
       this.material,
-      this.#BUSHES_COUNT
+      this.count
     );
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
     this.scene.add(this.mesh);
   }
 
-  _setBushesPosition() {
-    const dummy = new THREE.Object3D();
+  setPositions(pos = []) {
+    if (pos.length != this.count) {
+      console.error(
+        "check bushes position length:",
+        pos.length,
+        " count :",
+        this.count
+      );
+      return;
+    }
 
-    for (let i = 0; i < this.#BUSHES_COUNT; i++) {
+    this.positions = pos;
+    this._updateBushesMatrix();
+  }
+
+  setScales(scale = []) {
+    if (scale.length != this.count) {
+      console.error(
+        "check bushes scales length:",
+        scale.length,
+        " count :",
+        this.count
+      );
+      return;
+    }
+
+    this.scales = scale;
+    this._updateBushesMatrix();
+  }
+
+  setRotations(rot = []) {
+    if (rot.length != this.count) {
+      console.error(
+        "check bushes rotation length:",
+        rot.length,
+        " count :",
+        this.count
+      );
+      return;
+    }
+
+    this.rotations = rot;
+    this._updateBushesMatrix();
+  }
+
+  randomize(radius, depth) {
+    for (let i = 0; i < this.count; i++) {
+      const position = new THREE.Vector3();
+
       const angle = Math.random() * Math.PI * 2;
+      const offset = Math.random() * depth;
 
-      const offset = Math.random() * this.#BUSHES_DEPTH;
-      let x = Math.sin(angle) * this.#RADIUS;
+      let x = Math.sin(angle) * radius;
       x += x > 0 ? -1 * offset : offset;
-      let z = Math.cos(angle) * this.#RADIUS;
+
+      let z = Math.cos(angle) * radius;
       z += z > 0 ? -1 * offset : offset;
-      dummy.position.x = x;
-      dummy.position.z = z;
-      dummy.position.y = 0;
 
-      dummy.rotateY(Math.random() * Math.PI * 0.5);
+      position.x = x;
+      position.z = z;
+      position.y = 0;
 
-      const scale = 0.3 + Math.random() * 1.5;
-      dummy.scale.setScalar(scale);
+      this.positions[i] = position;
+
+      const rotation = new THREE.Euler(
+        Math.random() * Math.PI * 0.5,
+        Math.random() * Math.PI * 0.5,
+        Math.random() * Math.PI * 0.5,
+        "ZYX"
+      );
+      this.rotations[i] = rotation;
+
+      const scale = 0.5 + Math.random();
+      this.scales[i] = new THREE.Vector3().setScalar(scale);
+    }
+    this._updateBushesMatrix();
+  }
+
+  updateColor(col) {
+    this.uniforms.uBushesColor.value.set(col);
+  }
+
+  _updateBushesMatrix() {
+    const dummy = new THREE.Object3D();
+    for (let i = 0; i < this.count; i++) {
+      dummy.position.copy(this.positions[i]);
+      dummy.rotation.copy(this.rotations[i]);
+      dummy.scale.copy(this.scales[i]);
 
       dummy.updateWorldMatrix();
 

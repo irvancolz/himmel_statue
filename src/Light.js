@@ -15,7 +15,7 @@ class Light {
 
     this.debugConfig = {
       sunColor: "#ecf7fd",
-      sunIntensity: 3,
+      sunIntensity: 10,
       ambientColor: "#fff",
       ambientIntensity: 2,
     };
@@ -32,16 +32,16 @@ class Light {
       this.ambient.color.set(this.debugConfig.ambientColor);
     });
     ambientF.addBinding(this.ambient, "intensity", {
-      min: 1,
-      max: 100,
-      step: 0.5,
+      min: 0,
+      max: 5,
+      step: 0.1,
     });
 
     const sunF = f.addFolder({ title: "sun" });
     sunF.addBinding(this.debugConfig, "sunColor").on("change", () => {
       this.sun.color.set(this.debugConfig.sunColor);
     });
-    sunF.addBinding(this.sun, "intensity", { min: 1, max: 100, step: 0.5 });
+    sunF.addBinding(this.sun, "intensity", { min: 0, max: 20, step: 0.1 });
     sunF
       .addBinding(this.sunDirection, "x", { min: -1, max: 1, step: 0.1 })
       .on("change", () => this._moveSun());

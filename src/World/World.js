@@ -8,6 +8,7 @@ import Flower from "./Flower";
 import Grass from "./Grass";
 import Fog from "./Fog";
 import Butterflies from "./Butterflies";
+import { WORLD_DIAMETER } from "../const";
 
 export default class World {
   constructor() {
@@ -24,7 +25,8 @@ export default class World {
     this.sky = new Sky();
     this.butterflies = new Butterflies();
 
-    this.bushes = new Bushes();
+    this.bushes = new Bushes(200);
+    this.bushes.randomize(WORLD_DIAMETER * 0.5, WORLD_DIAMETER * 0.15);
     this.flower = new Flower();
     this.tree = new Tree();
     this.statue = new Statue();
