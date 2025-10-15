@@ -28,8 +28,7 @@ export default class World {
   init() {
     this.floor = new Floor();
     this.sky = new Sky();
-    this.butterflies = new Butterflies();
-
+    this.fog = new Fog();
     this.bushes = new Bushes(200, this.debugConfig.bushesColor);
     this.bushes.randomize(WORLD_DIAMETER * 0.5, WORLD_DIAMETER * 0.15);
 
@@ -37,6 +36,7 @@ export default class World {
     this.tree = new Tree();
     this.statue = new Statue();
     this.grass = new Grass();
+    this.butterflies = new Butterflies();
 
     this._registerDebugger();
   }
