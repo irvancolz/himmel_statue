@@ -30,7 +30,7 @@ export default class Grass {
     this.centersArray = [];
 
     this.debugConfig = {
-      color: "#2e8e2e",
+      color: "#6e8e2e",
     };
 
     this.init();

@@ -37,6 +37,6 @@ export default [
   {
     type: "gltfModel",
     name: "tree_model",
-    path: "./tree.gltf",
+    path: "./tree.glb",
   },
 ];

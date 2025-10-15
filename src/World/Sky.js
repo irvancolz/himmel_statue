@@ -29,7 +29,7 @@ class Sky {
   _registerDebugger() {
     if (!this.debug.active) return;
 
-    const f = this.debug.pane.addFolder({ title: "sky", expanded: true });
+    const f = this.debug.pane.addFolder({ title: "sky", expanded: false });
     f.addBinding(this.debugConfig, "dayHighColor").on("change", () => {
       this.uniforms.uDayHighColor.value.set(this.debugConfig.dayHighColor);
     });

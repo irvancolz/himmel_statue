@@ -16,11 +16,6 @@ class Bushes {
 
     this.color = color;
 
-    // this.debug = this.experience.debug;
-    // this.debugConfig = {
-    //   color: "#13ae6b",
-    // };
-
     this.positions = [];
     this.rotations = [];
     this.scales = [];
@@ -29,18 +24,8 @@ class Bushes {
   }
 
   init() {
-    // this._registerDebugger();
     this._addBushes();
   }
-
-  // _registerDebugger() {
-  //   if (!this.debug.active) return;
-
-  //   const f = this.debug.pane.addFolder({ title: "bushes", expanded: false });
-  //   f.addBinding(this, "color").on("change", () => {
-  //     this.updateColor(this.color);
-  //   });
-  // }
 
   _createGeometry() {
     const geometries = [];
@@ -136,7 +121,6 @@ class Bushes {
     }
 
     this.positions = pos;
-    this._updateBushesMatrix();
   }
 
   setScales(scale = []) {
@@ -151,7 +135,6 @@ class Bushes {
     }
 
     this.scales = scale;
-    this._updateBushesMatrix();
   }
 
   setRotations(rot = []) {
@@ -166,7 +149,6 @@ class Bushes {
     }
 
     this.rotations = rot;
-    this._updateBushesMatrix();
   }
 
   randomize(radius, depth) {
@@ -188,29 +170,28 @@ class Bushes {
 
       this.positions[i] = position;
 
-      const rotation = new THREE.Euler(
-        Math.random() * Math.PI * 0.5,
-        Math.random() * Math.PI * 0.5,
-        Math.random() * Math.PI * 0.5,
-        "ZYX"
+      const rotation = new THREE.Quaternion().setFromAxisAngle(
+        new THREE.Vector3(0, Math.random(), 0),
+        Math.PI
       );
       this.rotations[i] = rotation;
 
       const scale = 0.5 + Math.random();
-      this.scales[i] = new THREE.Vector3().setScalar(scale);
+      this.scales[i] = new THREE.Vector3(scale, scale, scale);
     }
-    this._updateBushesMatrix();
+    this.updateMatrix();
   }
 
   updateColor(col) {
     this.uniforms.uBushesColor.value.set(col);
   }
 
-  _updateBushesMatrix() {
+  updateMatrix() {
     const dummy = new THREE.Object3D();
+
     for (let i = 0; i < this.count; i++) {
       dummy.position.copy(this.positions[i]);
-      dummy.rotation.copy(this.rotations[i]);
+      dummy.quaternion.copy(this.rotations[i]);
       dummy.scale.copy(this.scales[i]);
 
       dummy.updateWorldMatrix();

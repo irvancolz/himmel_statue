@@ -15,7 +15,7 @@ export default class Floor {
     this.subdivision = this.width * 4;
 
     this.debugConfig = {
-      color: "#1a9c64",
+      color: "#595627",
     };
 
     this.init();

@@ -14,6 +14,11 @@ export default class World {
   constructor() {
     this.experience = new Experience();
     this.resources = this.experience.resources;
+    this.debug = this.experience.debug;
+
+    this.debugConfig = {
+      bushesColor: "#5e8e2e",
+    };
 
     this.resources.on("finish:loaded", () => {
       this.init();
@@ -25,12 +30,24 @@ export default class World {
     this.sky = new Sky();
     this.butterflies = new Butterflies();
 
-    this.bushes = new Bushes(200);
+    this.bushes = new Bushes(200, this.debugConfig.bushesColor);
     this.bushes.randomize(WORLD_DIAMETER * 0.5, WORLD_DIAMETER * 0.15);
+
     this.flower = new Flower();
     this.tree = new Tree();
     this.statue = new Statue();
     this.grass = new Grass();
+
+    this._registerDebugger();
+  }
+
+  _registerDebugger() {
+    if (!this.debug.active) return;
+
+    const f = this.debug.pane.addFolder({ title: "world", expanded: false });
+    f.addBinding(this.debugConfig, "bushesColor").on("change", () => {
+      this.bushes.updateColor(this.debugConfig.bushesColor);
+    });
   }
 
   update() {
@@ -43,6 +60,8 @@ export default class World {
     if (this.grass) this.grass.update();
 
     if (this.butterflies) this.butterflies.update();
+
+    if (this.tree) this.tree.update();
   }
 
   resize() {}
