@@ -35,14 +35,14 @@ export default class Flower {
       uNoiseTexture: new THREE.Uniform(this.resources.noise_texture),
     };
 
-    const material = new CustomShaderMaterial({
+    const material = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
       vertexShader,
       fragmentShader,
       transparent: true,
       depthWrite: false,
       side: THREE.DoubleSide,
-      baseMaterial: THREE.MeshLambertMaterial,
+      // baseMaterial: THREE.MeshStandardMaterial,
     });
     this.material = material;
 
@@ -52,7 +52,7 @@ export default class Flower {
       this.#COUNT
     );
     mesh.castShadow = true;
-    mesh.receiveShadow = true;
+    // mesh.receiveShadow = true;
     this.mesh = mesh;
     this.scene.add(mesh);
   }

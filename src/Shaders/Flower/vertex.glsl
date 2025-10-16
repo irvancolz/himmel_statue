@@ -18,8 +18,8 @@ void main() {
 
   vec4 modelViewPosition = modelViewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * modelViewPosition;
-  // gl_Position = projectionMatrix * modelViewPosition;
-  csm_PositionRaw = projectedPosition;
+  gl_Position = projectedPosition;
+  // csm_PositionRaw = projectedPosition;
 
   vUv = uv;
 }

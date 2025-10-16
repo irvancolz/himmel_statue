@@ -15,9 +15,9 @@ class Light {
 
     this.debugConfig = {
       sunColor: "#ecf7fd",
-      sunIntensity: 10,
+      sunIntensity: 10.7,
       ambientColor: "#fff",
-      ambientIntensity: 2,
+      ambientIntensity: 0.3,
     };
 
     this.init();

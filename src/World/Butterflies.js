@@ -33,16 +33,7 @@ class ButterFlies {
     this.init();
   }
 
-  _registerDebugger() {
-    if (!this.debug.active) return;
-    const f = this.debug.pane.addFolder({
-      title: "ButterFlies",
-      expanded: true,
-    });
-  }
-
   init() {
-    this._registerDebugger();
     this._addButterFlies();
   }
 
