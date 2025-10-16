@@ -9,6 +9,7 @@ import Grass from "./Grass";
 import Fog from "./Fog";
 import Butterflies from "./Butterflies";
 import { WORLD_DIAMETER } from "../const";
+import Fox from "./Fox";
 
 export default class World {
   constructor() {
@@ -32,6 +33,8 @@ export default class World {
 
     this.grass = new Grass();
     this.flower = new Flower();
+
+    this.fox = new Fox();
 
     this.bushes = new Bushes(200, this.debugConfig.bushesColor);
     this.bushes.randomize(WORLD_DIAMETER * 0.5, WORLD_DIAMETER * 0.15);
@@ -64,6 +67,8 @@ export default class World {
     if (this.butterflies) this.butterflies.update();
 
     if (this.tree) this.tree.update();
+
+    if (this.fox) this.fox.update();
   }
 
   resize() {}

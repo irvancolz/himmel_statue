@@ -39,4 +39,9 @@ export default [
     name: "tree_model",
     path: "./tree.glb",
   },
+  {
+    type: "gltfModel",
+    name: "fox_model",
+    path: "./Fox/glTF/Fox.gltf",
+  },
 ];
