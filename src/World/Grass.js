@@ -57,9 +57,8 @@ export default class Grass {
       vertexShader,
       fragmentShader,
       uniforms: this.uniforms,
-      baseMaterial: THREE.MeshStandardMaterial,
+      baseMaterial: THREE.MeshLambertMaterial,
     });
-    // this.material.uniforms.uFieldSize.value = this.width;
   }
 
   initGeometry() {

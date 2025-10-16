@@ -7,21 +7,19 @@ varying vec2 vUv;
 
 void main() {
 
-  vec4 mvPosition = vec4(position, 1.0);
+  vec4 modelPosition = instanceMatrix * vec4(position, 1.);
 
-  #ifdef USE_INSTANCING 
-  mvPosition = instanceMatrix * mvPosition;
-  #endif
-
-  vec2 worldUV = getWorldUV(mvPosition.xz);
+  vec2 worldUV = getWorldUV(modelPosition.xz);
   float noise = texture(uNoiseTexture, worldUV).r;
 
   float displacement = (sin(uTime * .002 + noise * 10.) * .2) * uv.y;
-  mvPosition.z += displacement;
-  mvPosition.x += displacement;
+  modelPosition.z += displacement;
+  modelPosition.x += displacement;
 
-  vec4 modelViewPosition = modelViewMatrix * mvPosition;
-  gl_Position = projectionMatrix * modelViewPosition;
+  vec4 modelViewPosition = modelViewMatrix * modelPosition;
+  vec4 projectedPosition = projectionMatrix * modelViewPosition;
+  // gl_Position = projectionMatrix * modelViewPosition;
+  csm_PositionRaw = projectedPosition;
 
   vUv = uv;
 }

@@ -29,13 +29,15 @@ export default class World {
     this.floor = new Floor();
     this.sky = new Sky();
     this.fog = new Fog();
+
+    this.grass = new Grass();
+    this.flower = new Flower();
+
     this.bushes = new Bushes(200, this.debugConfig.bushesColor);
     this.bushes.randomize(WORLD_DIAMETER * 0.5, WORLD_DIAMETER * 0.15);
 
-    this.flower = new Flower();
     this.tree = new Tree();
     this.statue = new Statue();
-    this.grass = new Grass();
     this.butterflies = new Butterflies();
 
     this._registerDebugger();

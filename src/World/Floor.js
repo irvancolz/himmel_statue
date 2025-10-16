@@ -45,7 +45,7 @@ export default class Floor {
   }
 
   initMaterial() {
-    const material = new THREE.MeshStandardMaterial({
+    const material = new THREE.MeshLambertMaterial({
       color: this.debugConfig.color,
     });
     this.material = material;

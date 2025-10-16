@@ -2,6 +2,7 @@ import Experience from "../Experience";
 import * as THREE from "three";
 import fragmentShader from "../Shaders/Flower/fragment.glsl";
 import vertexShader from "../Shaders/Flower/vertex.glsl";
+import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 
 export default class Flower {
   #RADIUS = 10;
@@ -34,13 +35,14 @@ export default class Flower {
       uNoiseTexture: new THREE.Uniform(this.resources.noise_texture),
     };
 
-    const material = new THREE.ShaderMaterial({
+    const material = new CustomShaderMaterial({
       uniforms: this.uniforms,
       vertexShader,
       fragmentShader,
       transparent: true,
       depthWrite: false,
       side: THREE.DoubleSide,
+      baseMaterial: THREE.MeshLambertMaterial,
     });
     this.material = material;
 
