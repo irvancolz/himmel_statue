@@ -1,4 +1,4 @@
-#define WORLD_DIAMETER 80.
+#define WORLD_DIAMETER 60.
 
 vec2 getWorldUV(vec2 worldPos) {
     vec2 pos = worldPos + vec2(.5 * WORLD_DIAMETER);

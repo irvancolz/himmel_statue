@@ -3,6 +3,7 @@ import Experience from "../Experience";
 import fragmentShader from "../Shaders/Sky/fragment.glsl";
 import vertexShader from "../Shaders/Sky/vertex.glsl";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
+import { WORLD_DIAMETER } from "../const";
 
 class Sky {
   constructor() {
@@ -11,11 +12,8 @@ class Sky {
     this.debug = this.experience.debug;
 
     this.debugConfig = {
-      dayHighColor: "#aee3ff",
-      dayLowColor: "#cad7e1",
-      nightLowColor: "#babaf2",
-      nightHighColor: "#234d98",
-      sunColor: "#ecf7fd",
+      skyDayColor: "#05a8ff",
+      horizonColor: "#dde1c8",
     };
 
     this.progress = 0;
@@ -30,20 +28,11 @@ class Sky {
     if (!this.debug.active) return;
 
     const f = this.debug.pane.addFolder({ title: "sky", expanded: false });
-    f.addBinding(this.debugConfig, "dayHighColor").on("change", () => {
-      this.uniforms.uDayHighColor.value.set(this.debugConfig.dayHighColor);
+    f.addBinding(this.debugConfig, "skyDayColor").on("change", () => {
+      this.uniforms.uSkyDayColor.value.set(this.debugConfig.skyDayColor);
     });
-    f.addBinding(this.debugConfig, "dayLowColor").on("change", () => {
-      this.uniforms.uDayLowColor.value.set(this.debugConfig.dayLowColor);
-    });
-    f.addBinding(this.debugConfig, "nightLowColor").on("change", () => {
-      this.uniforms.uNightLowColor.value.set(this.debugConfig.nightLowColor);
-    });
-    f.addBinding(this.debugConfig, "nightHighColor").on("change", () => {
-      this.uniforms.uNightHighColor.value.set(this.debugConfig.nightHighColor);
-    });
-    f.addBinding(this.debugConfig, "sunColor").on("change", () => {
-      this.uniforms.uSunColor.value.set(this.debugConfig.sunColor);
+    f.addBinding(this.debugConfig, "horizonColor").on("change", () => {
+      this.uniforms.uHorizonColor.value.set(this.debugConfig.horizonColor);
     });
   }
 
@@ -54,22 +43,17 @@ class Sky {
 
   _initSky() {
     this.uniforms = {
-      uDayHighColor: new THREE.Uniform(
-        new THREE.Color(this.debugConfig.dayHighColor)
+      uSkyDayColor: new THREE.Uniform(
+        new THREE.Color(this.debugConfig.skyDayColor)
       ),
-      uDayLowColor: new THREE.Uniform(
-        new THREE.Color(this.debugConfig.dayLowColor)
+      uHorizonColor: new THREE.Uniform(
+        new THREE.Color(this.debugConfig.horizonColor)
       ),
-      uNightLowColor: new THREE.Uniform(
-        new THREE.Color(this.debugConfig.nightLowColor)
-      ),
-      uNightHighColor: new THREE.Uniform(
-        new THREE.Color(this.debugConfig.nightHighColor)
-      ),
-      uSunColor: new THREE.Uniform(new THREE.Color(this.debugConfig.sunColor)),
-      uSunDirection: new THREE.Uniform(new THREE.Vector3()),
+      uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 1, 0)),
     };
-    this.geometry = new THREE.SphereGeometry(200, 64, 64);
+    const w = WORLD_DIAMETER * 0.75;
+    // const w = 4;
+    this.geometry = new THREE.SphereGeometry(w, 64, 64);
 
     this.material = new THREE.ShaderMaterial({
       vertexShader,

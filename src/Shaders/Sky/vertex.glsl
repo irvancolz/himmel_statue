@@ -1,10 +1,7 @@
 varying vec3 vColor;
 
-uniform vec3 uDayHighColor;
-uniform vec3 uDayLowColor;
-uniform vec3 uNightHighColor;
-uniform vec3 uNightLowColor;
-uniform vec3 uSunColor;
+uniform vec3 uHorizonColor;
+uniform vec3 uSkyDayColor;
 uniform vec3 uSunDirection;
 
 void main() {
@@ -19,24 +16,15 @@ void main() {
 
     float sunIntensity = dot(normal, sunDirection);
     sunIntensity = sunIntensity * .5 + .5;
+    sunIntensity = pow(sunIntensity, 3.);
 
     vec3 color = vec3(sunIntensity);
 
-    vec3 dayColorHigh = uDayHighColor;
-    vec3 dayColorLow = uDayLowColor;
-    float dayIntensity = smoothstep(.5, 1., sunIntensity);
-    vec3 dayColor = mix(dayColorLow, dayColorHigh, dayIntensity);
+    color = mix(uHorizonColor, uSkyDayColor, sunIntensity);
 
-    vec3 nightColorHigh = uNightHighColor;
-    vec3 nightColorLow = uNightLowColor;
-    float nightIntensity = smoothstep(0., .5, sunIntensity);
-    vec3 nightColor = mix(nightColorHigh, nightColorLow, nightIntensity);
-
-    color = nightColorHigh;
-
-    float sun = clamp(sunIntensity, 0., 1.);
-    sun = pow(sun, 5.);
-    color = mix(color, uSunColor, sun);
+    // float sun = clamp(sunIntensity, 0., 1.);
+    // sun = pow(sun, 5.);
+    // color = mix(color, uSunColor, sun);
 
     vColor = color;
 }
