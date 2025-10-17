@@ -8,6 +8,7 @@ import resource from "./Utils/resource";
 import ResourcesLoader from "./Utils/ResourceLoader";
 import Debug from "./Debug";
 import Light from "./Light";
+import Stats from "three/examples/jsm/libs/stats.module.js";
 
 let instance = null;
 
@@ -33,6 +34,9 @@ export default class Experience {
 
     this.world = new World();
 
+    this.stats = new Stats();
+    document.body.append(this.stats.dom);
+
     // const helper = new THREE.GridHelper(24, 24);
     // this.scene.add(helper);
 
@@ -50,6 +54,7 @@ export default class Experience {
     this.world.update();
     this.camera.update();
     this.renderer.update();
+    this.stats.update();
   }
 
   resize() {

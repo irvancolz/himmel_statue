@@ -19,7 +19,7 @@ export default class Camera {
       75,
       this.size.width / this.size.height,
       0.1,
-      1000
+      WORLD_DIAMETER * 1.25
     );
     camera.position.z = 20;
     camera.position.y = 15;

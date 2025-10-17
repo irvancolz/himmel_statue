@@ -58,13 +58,13 @@ export default class World {
   update() {
     if (this.flower) this.flower.update();
 
-    if (this.bushes) this.bushes.update();
-
     // if (this.sky) this.sky.update();
 
     if (this.grass) this.grass.update();
 
     if (this.butterflies) this.butterflies.update();
+
+    if (this.bushes) this.bushes.update();
 
     if (this.tree) this.tree.update();
 

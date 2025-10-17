@@ -96,6 +96,7 @@ class Bushes {
       side: THREE.DoubleSide,
       vertexShader,
       fragmentShader,
+      alphaMap: this.resources.leaves_alpha_texture,
       baseMaterial: THREE.MeshLambertMaterial,
     });
 
