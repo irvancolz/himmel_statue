@@ -9,6 +9,7 @@ import ResourcesLoader from "./Utils/ResourceLoader";
 import Debug from "./Debug";
 import Light from "./Light";
 import Stats from "three/examples/jsm/libs/stats.module.js";
+import Music from "./Music";
 
 let instance = null;
 
@@ -24,6 +25,7 @@ export default class Experience {
     this.size = new Size();
     this.time = new Time();
     this.debug = new Debug();
+    this.music = new Music();
 
     this.resources = new ResourcesLoader(resource);
 

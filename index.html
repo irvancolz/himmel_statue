@@ -9,5 +9,20 @@
   <body>
     <canvas id="canvas"></canvas>
     <script type="module" src="/src/main.js"></script>
+    <div id="debug"></div>
+    <div id="music">
+      <button class="btn">
+        <img src="./music_off.svg" alt="music" class="img" />
+      </button>
+
+      <input
+        type="range"
+        min="0"
+        max="10"
+        step="1"
+        value="5"
+        id="music_volume_input"
+      />
+    </div>
   </body>
 </html>

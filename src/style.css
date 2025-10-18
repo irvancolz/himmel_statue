@@ -1,5 +1,9 @@
 :root {
   font-size: 16px;
+  --color-white: #fff;
+
+  --z-canvas: 0;
+  --z-overlay: 1;
 }
 
 *,
@@ -14,9 +18,81 @@ html {
   overflow: hidden;
 }
 
+button {
+  appearance: none;
+  background-color: transparent;
+  outline-color: transparent;
+  border-color: transparent;
+}
+
 #canvas {
   height: 100vh;
   width: 100vw;
   position: fixed;
   inset: 0 0 0 0;
+  z-index: var(--z-canvas);
+}
+
+#debug,
+#music {
+  position: fixed;
+  z-index: var(--z-overlay);
+}
+
+#music {
+  cursor: pointer;
+  right: 1rem;
+  top: 1rem;
+  border-radius: 100px;
+
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+
+  box-shadow: 0px 1px 2px 2px #00000033;
+}
+
+#music:hover {
+  gap: 0.5rem;
+}
+
+#music:focus-within {
+  outline: 1px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+#music .btn {
+  position: relative;
+  z-index: 3;
+  background-color: var(--color-white);
+}
+
+#music .img {
+  aspect-ratio: 1;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#music input {
+  transform-origin: right;
+  width: 0px;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+#music:hover input {
+  scale: 1 1;
+  width: 5rem;
+  opacity: 1;
+}
+
+#debug {
+  top: 6rem;
+  right: 1rem;
+  width: 100%;
+  max-width: 15rem;
 }
