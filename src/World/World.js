@@ -19,6 +19,8 @@ export default class World {
 
     this.debugConfig = {
       bushesColor: "#5e8e2e",
+      tree_1: "#858425",
+      tree_2: "#855e25",
     };
 
     this.resources.on("finish:loaded", () => {
@@ -39,7 +41,8 @@ export default class World {
     this.bushes = new Bushes(200, this.debugConfig.bushesColor);
     this.bushes.randomize(WORLD_DIAMETER * 0.5, WORLD_DIAMETER * 0.15);
 
-    this.tree = new Tree();
+    this.tree1 = new Tree(50, this.debugConfig.tree_1);
+    this.tree2 = new Tree(75, this.debugConfig.tree_2);
     this.statue = new Statue();
     this.butterflies = new Butterflies();
 
@@ -52,6 +55,12 @@ export default class World {
     const f = this.debug.pane.addFolder({ title: "world", expanded: false });
     f.addBinding(this.debugConfig, "bushesColor").on("change", () => {
       this.bushes.updateColor(this.debugConfig.bushesColor);
+    });
+    f.addBinding(this.debugConfig, "tree_1").on("change", () => {
+      this.tree1.updateColor(this.debugConfig.tree_1);
+    });
+    f.addBinding(this.debugConfig, "tree_2").on("change", () => {
+      this.tree2.updateColor(this.debugConfig.tree_2);
     });
   }
 
@@ -66,7 +75,8 @@ export default class World {
 
     if (this.bushes) this.bushes.update();
 
-    if (this.tree) this.tree.update();
+    if (this.tree1) this.tree1.update();
+    if (this.tree2) this.tree2.update();
 
     if (this.fox) this.fox.update();
   }

@@ -5,20 +5,21 @@ import Bushes from "./Bushes";
 
 class Tree {
   #RADIUS = WORLD_DIAMETER * 0.5;
-  #TREE_COUNT = 150;
   #FOREST_DEPTH = WORLD_DIAMETER * 0.1;
-  constructor() {
+  constructor(count = 50, color = "#858425") {
     this.experience = new Experience();
     this.resources = this.experience.resources.resources;
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
+
+    this.count = count;
 
     this.positions = [];
     this.rotations = [];
     this.scales = [];
 
     this.leaves = {
-      color: "#858425",
+      color: color,
       count: 0,
       reffs: [],
       positions: [],
@@ -37,17 +38,10 @@ class Tree {
 
     this._calcLeavesPositions();
     this._addLeaves();
-
-    this._registerDebugger();
   }
 
-  _registerDebugger() {
-    if (!this.debug.active) return;
-
-    const f = this.debug.pane.addFolder({ title: "tree", expanded: false });
-    f.addBinding(this.leaves, "color").on("change", () => {
-      this.leaves.foliages.updateColor(this.leaves.color);
-    });
+  updateColor(color) {
+    this.leaves.foliages.updateColor(color);
   }
 
   _extractModelParts() {
@@ -69,7 +63,7 @@ class Tree {
     this.mesh = new THREE.InstancedMesh(
       this.geometry,
       this.material,
-      this.#TREE_COUNT
+      this.count
     );
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
@@ -77,7 +71,7 @@ class Tree {
   }
 
   _calcTreePositions() {
-    for (let i = 0; i < this.#TREE_COUNT; i++) {
+    for (let i = 0; i < this.count; i++) {
       const angle = Math.random() * Math.PI * 2;
       const offset = Math.random() * this.#FOREST_DEPTH;
 
@@ -104,7 +98,7 @@ class Tree {
   _setTreePosition() {
     const dummy = new THREE.Object3D();
 
-    for (let i = 0; i < this.#TREE_COUNT; i++) {
+    for (let i = 0; i < this.count; i++) {
       dummy.position.copy(this.positions[i]);
       dummy.quaternion.copy(this.rotations[i]);
       dummy.scale.copy(this.scales[i]);
@@ -116,9 +110,9 @@ class Tree {
   }
 
   _calcLeavesPositions() {
-    this.leaves.count = this.#TREE_COUNT * this.leaves.reffs.length;
+    this.leaves.count = this.count * this.leaves.reffs.length;
 
-    for (let i = 0; i < this.#TREE_COUNT; i++) {
+    for (let i = 0; i < this.count; i++) {
       const p = this.leaves.reffs.map((el) => {
         return el
           .clone()
