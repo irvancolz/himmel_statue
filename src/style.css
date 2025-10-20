@@ -4,6 +4,11 @@
 
   --z-canvas: 0;
   --z-overlay: 1;
+
+  --overlay-shadow: 0px 1px 2px 2px #00000033;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 *,
@@ -16,6 +21,11 @@
 
 html {
   overflow: hidden;
+}
+
+ul,
+li {
+  list-style: none;
 }
 
 button {
@@ -34,7 +44,8 @@ button {
 }
 
 #debug,
-#music {
+#music,
+#copyright {
   position: fixed;
   z-index: var(--z-overlay);
 }
@@ -51,7 +62,7 @@ button {
   justify-content: center;
   padding: 0.5rem;
 
-  box-shadow: 0px 1px 2px 2px #00000033;
+  box-shadow: var(--overlay-shadow);
 }
 
 #music:hover {
@@ -96,4 +107,63 @@ button {
   right: 1rem;
   width: 100%;
   max-width: 15rem;
+}
+
+#copyright {
+  right: 5rem;
+  top: 1rem;
+  z-index: calc(var(--z-overlay) - 1);
+}
+
+#copyright .btn {
+  padding: 0.5rem;
+  border-radius: 1000px;
+  background-color: var(--color-white);
+  box-shadow: var(--overlay-shadow);
+}
+
+#copyright .img {
+  display: block;
+  aspect-ratio: 1;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#copyright .list {
+  position: absolute;
+  right: 0;
+  top: 100%;
+
+  transition: all 0.3s ease-in-out;
+
+  translate: 0 -1rem;
+  opacity: 0;
+  pointer-events: none;
+
+  padding: 0.5rem;
+  min-width: 15rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-white);
+  box-shadow: var(--overlay-shadow);
+}
+
+#copyright:hover .list,
+#copyright .list:hover,
+#copyright:focus-within .list {
+  translate: 0 0;
+  opacity: 1;
+  pointer-events: all;
+}
+
+#copyright:focus-within .btn {
+  outline: 1px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+#copyright .asset {
+  margin-block: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  text-transform: capitalize;
 }
