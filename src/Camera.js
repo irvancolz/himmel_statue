@@ -10,22 +10,38 @@ export default class Camera {
     this.scene = this.experience.scene;
     this.canvas = this.experience.canvas;
 
+    this.target = new THREE.Vector3();
+    this.offset = new THREE.Vector3();
+
     this.init();
     this.addControls();
   }
 
+  _calcFov() {
+    if (window.innerWidth <= 768) {
+      return 100;
+    }
+    return 75;
+  }
+
+  _calcOffset() {
+    if (window.innerWidth <= 768) {
+      this.offset.set(20, 15, -10).multiplyScalar(0.75);
+      return;
+    }
+    this.offset.set(20, 15, -10).multiplyScalar(0.45);
+  }
+
   init() {
     const camera = new THREE.PerspectiveCamera(
-      75,
+      this._calcFov(),
       this.size.width / this.size.height,
       0.1,
       WORLD_DIAMETER * 1.25
     );
-    camera.position.z = 20;
-    camera.position.y = 15;
-    camera.position.x = -10;
 
-    camera.position.multiplyScalar(0.45);
+    this._calcOffset();
+    camera.position.copy(this.offset);
 
     this.instance = camera;
     this.scene.add(this.instance);
@@ -44,7 +60,17 @@ export default class Camera {
     this.controls.update();
   }
 
+  lookAt(target) {
+    this.instance.lookAt(target);
+    this.instance.position.copy(target.clone()).add(this.offset);
+    this.controls.target = target;
+  }
+
   resize() {
+    this._calcOffset();
+
+    this.instance.fov = this._calcFov();
+    this.instance.position.copy(this.offset);
     this.instance.aspect = this.size.width / this.size.height;
     this.instance.updateProjectionMatrix();
   }

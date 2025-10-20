@@ -37,10 +37,7 @@ export default class Experience {
     this.world = new World();
 
     this.stats = new Stats();
-    document.body.append(this.stats.dom);
-
-    // const helper = new THREE.GridHelper(24, 24);
-    // this.scene.add(helper);
+    // document.body.append(this.stats.dom);
 
     this.size.on("resize", () => {
       this.resize();

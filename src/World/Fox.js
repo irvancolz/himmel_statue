@@ -97,7 +97,7 @@ class Fox {
     } else {
       const angle = Math.random() * Math.PI * 2;
 
-      const r = WORLD_DIAMETER;
+      const r = WORLD_DIAMETER * 0.75;
       const x = Math.sin(angle) * r;
       const z = Math.cos(angle) * r;
 
