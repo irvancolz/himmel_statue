@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { WORLD_DIAMETER } from "../const";
 import Experience from "../Experience";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
@@ -91,13 +90,13 @@ class Bushes {
 
     this.material = new CustomShaderMaterial({
       uniforms: this.uniforms,
+      alphaTest: 0.55,
       transparent: true,
-      depthWrite: false,
       side: THREE.DoubleSide,
       vertexShader,
       fragmentShader,
-      alphaMap: this.resources.leaves_alpha_texture,
       baseMaterial: THREE.MeshLambertMaterial,
+      alphaMap: this.resources.leaves_alpha_texture,
     });
 
     this.mesh = new THREE.InstancedMesh(

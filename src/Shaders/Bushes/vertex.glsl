@@ -1,8 +1,6 @@
 uniform float uTime;
 uniform sampler2D uNoiseTexture;
 
-varying vec2 vUv;
-
 #include ../Includes/getWorldUV.glsl
 
 void main() {
@@ -23,5 +21,4 @@ void main() {
     // gl_Position = projectedPosition;
     csm_PositionRaw = projectedPosition;
 
-    vUv = uv;
 }
