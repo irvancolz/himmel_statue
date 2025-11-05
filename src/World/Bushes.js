@@ -4,6 +4,7 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import vertexShader from "../Shaders/Bushes/vertex.glsl";
 import fragmentShader from "../Shaders/Bushes/fragment.glsl";
+import { random } from "../Utils/math";
 
 class Bushes {
   constructor(count = 1, color = "#13ae6b") {
@@ -32,20 +33,22 @@ class Bushes {
     this.normalArray = [];
 
     for (let i = 0; i < LEAVES_COUNT; i++) {
+      const rand = random(i + LEAVES_COUNT);
+
       const plane = new THREE.PlaneGeometry();
 
       const sphere = new THREE.Spherical(
-        1 - Math.pow(Math.random(), 3),
-        Math.PI * Math.random() * 2,
-        Math.random() * Math.PI
+        1 - Math.pow(rand(), 3),
+        Math.PI * rand() * 2,
+        rand() * Math.PI
       );
       const position = new THREE.Vector3().setFromSpherical(sphere);
 
       plane.translate(position.x, position.y, position.z);
 
-      plane.rotateX(Math.random() * 9999);
-      plane.rotateY(Math.random() * 9999);
-      plane.rotateZ(Math.random() * 9999);
+      plane.rotateX(rand() * 9999);
+      plane.rotateY(rand() * 9999);
+      plane.rotateZ(rand() * 9999);
 
       this._calcNormal(plane, position);
 
@@ -153,10 +156,12 @@ class Bushes {
 
   randomize(radius, depth) {
     for (let i = 0; i < this.count; i++) {
+      const rand = random(radius + i);
+
       const position = new THREE.Vector3();
 
-      const angle = Math.random() * Math.PI * 2;
-      const offset = Math.random() * depth;
+      const angle = rand() * Math.PI * 2;
+      const offset = rand() * depth;
 
       let x = Math.sin(angle) * radius;
       x += x > 0 ? -1 * offset : offset;
@@ -171,12 +176,12 @@ class Bushes {
       this.positions[i] = position;
 
       const rotation = new THREE.Quaternion().setFromAxisAngle(
-        new THREE.Vector3(0, Math.random(), 0),
+        new THREE.Vector3(0, rand(), 0),
         Math.PI
       );
       this.rotations[i] = rotation;
 
-      const scale = 0.5 + Math.random();
+      const scale = 0.5 + rand();
       this.scales[i] = new THREE.Vector3(scale, scale, scale);
     }
     this.updateMatrix();

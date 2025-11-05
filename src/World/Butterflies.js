@@ -3,6 +3,7 @@ import * as THREE from "three";
 import fragmentShader from "../Shaders/Butterfly/fragment.glsl";
 import vertexShader from "../Shaders/Butterfly/vertex.glsl";
 import { WORLD_DIAMETER } from "../const";
+import { random } from "../Utils/math";
 
 class ButterFlies {
   #COUNT = 15;
@@ -41,12 +42,13 @@ class ButterFlies {
     const radius = WORLD_DIAMETER * 0.5 * 0.75;
 
     for (let i = 0; i < this.#COUNT; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const r = 0.3 + Math.random() * radius;
-      const speed = Math.random();
-      const direction = Math.random() - 0.5 > 0 ? 1 : -1;
-      const height = 1 + Math.random() * 5;
-      const delay = Math.random() * 10;
+      const rand = random(i + this.#COUNT);
+      const angle = rand() * Math.PI * 2;
+      const r = 0.3 + rand() * radius;
+      const speed = rand();
+      const direction = rand() - 0.5 > 0 ? 1 : -1;
+      const height = 1 + rand() * 5;
+      const delay = rand() * 10;
 
       this.delayArray[i] = delay;
       this.heightArray[i] = height;

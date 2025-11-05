@@ -4,6 +4,7 @@ import Experience from "../Experience";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import fragmentShader from "../Shaders/Grass/fragment.glsl";
 import vertexShader from "../Shaders/Grass/vertex.glsl";
+import { random } from "../Utils/math";
 
 export default class Grass {
   constructor() {
@@ -70,9 +71,10 @@ export default class Grass {
       for (let col = 0; col < this.width; col++) {
         for (let idx = 0; idx < this.density; idx++) {
           const i = row * this.width * this.density + col * this.density + idx;
+          const rand = random(i);
 
-          let x = row - this.width * 0.5 + 0.5 + (Math.random() - 0.5);
-          let y = col - this.width * 0.5 + 0.5 + (Math.random() - 0.5);
+          let x = row - this.width * 0.5 + 0.5 + (rand() - 0.5);
+          let y = col - this.width * 0.5 + 0.5 + (rand() - 0.5);
 
           const center = new THREE.Vector3(x, 0, y).add(this.position);
 
@@ -183,13 +185,15 @@ export default class Grass {
 
   // https://github.com/James-Smyth/three-grass-demo/blob/main/src/index.js
   generateBlade(vArrOffset, uv) {
+    const rand = random(vArrOffset);
+
     const MID_WIDTH = this.BLADE_WIDTH * 1.75;
     const TIP_OFFSET = 0.1;
     const height = this.BLADE_HEIGHT;
 
-    const yaw = Math.random() * Math.PI * 2;
+    const yaw = rand() * Math.PI * 2;
     const yawUnitVec = new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw));
-    const tipBend = Math.random() * Math.PI * 2;
+    const tipBend = rand() * Math.PI * 2;
     const tipBendUnitVec = new THREE.Vector3(
       Math.sin(tipBend),
       0,

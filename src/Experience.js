@@ -37,7 +37,7 @@ export default class Experience {
     this.world = new World();
 
     this.stats = new Stats();
-    // document.body.append(this.stats.dom);
+    document.body.append(this.stats.dom);
 
     this.size.on("resize", () => {
       this.resize();

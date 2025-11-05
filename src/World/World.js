@@ -10,6 +10,7 @@ import Fog from "./Fog";
 import Butterflies from "./Butterflies";
 import { WORLD_DIAMETER } from "../const";
 import Fox from "./Fox";
+import { random } from "../Utils/math";
 
 export default class World {
   constructor() {

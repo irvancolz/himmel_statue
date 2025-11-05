@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { WORLD_DIAMETER } from "../const";
 import Experience from "../Experience";
 import Bushes from "./Bushes";
+import { random } from "../Utils/math";
 
 class Tree {
   #RADIUS = WORLD_DIAMETER * 0.5;
@@ -72,8 +73,10 @@ class Tree {
 
   _calcTreePositions() {
     for (let i = 0; i < this.count; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const offset = Math.random() * this.#FOREST_DEPTH;
+      const rand = random(i + this.count * 7);
+
+      const angle = rand() * Math.PI * 2;
+      const offset = rand() * this.#FOREST_DEPTH;
 
       let x = Math.sin(angle) * this.#RADIUS;
       x += x > 0 ? -1 * offset : offset;
@@ -85,12 +88,12 @@ class Tree {
       this.positions.push(position);
 
       const rotate = new THREE.Quaternion().setFromAxisAngle(
-        new THREE.Vector3(0, Math.random(), 0),
+        new THREE.Vector3(0, rand(), 0),
         Math.PI
       );
       this.rotations.push(rotate);
 
-      const scale = 0.5 + Math.random();
+      const scale = 0.5 + rand();
       this.scales[i] = new THREE.Vector3(scale, scale, scale);
     }
   }

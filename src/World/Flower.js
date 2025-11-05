@@ -2,7 +2,7 @@ import Experience from "../Experience";
 import * as THREE from "three";
 import fragmentShader from "../Shaders/Flower/fragment.glsl";
 import vertexShader from "../Shaders/Flower/vertex.glsl";
-import CustomShaderMaterial from "three-custom-shader-material/vanilla";
+import { random } from "../Utils/math";
 
 export default class Flower {
   #RADIUS = 10;
@@ -42,7 +42,6 @@ export default class Flower {
       transparent: true,
       depthWrite: false,
       side: THREE.DoubleSide,
-      // baseMaterial: THREE.MeshStandardMaterial,
     });
     this.material = material;
 
@@ -52,7 +51,6 @@ export default class Flower {
       this.#COUNT
     );
     mesh.castShadow = true;
-    // mesh.receiveShadow = true;
     this.mesh = mesh;
     this.scene.add(mesh);
   }
@@ -60,15 +58,16 @@ export default class Flower {
   _setFlowerPosition() {
     this.dummy = new THREE.Object3D();
     for (let i = 0; i < this.#COUNT; i++) {
-      const angle = Math.random() * Math.PI * 2;
+      const rand = random(i);
+      const angle = rand() * Math.PI * 2;
 
-      const x = Math.sin(angle) * Math.random() * this.#RADIUS;
-      const z = Math.cos(angle) * Math.random() * this.#RADIUS;
+      const x = Math.sin(angle) * rand() * this.#RADIUS;
+      const z = Math.cos(angle) * rand() * this.#RADIUS;
       this.dummy.position.set(x, 0, z);
 
-      this.dummy.scale.setScalar(0.5 + Math.random());
+      this.dummy.scale.setScalar(0.5 + rand());
 
-      this.dummy.rotation.y = Math.random() * Math.PI;
+      this.dummy.rotation.y = rand() * Math.PI;
 
       this.dummy.updateMatrix();
       this.mesh.setMatrixAt(i, this.dummy.matrix);
