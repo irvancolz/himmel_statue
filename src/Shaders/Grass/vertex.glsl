@@ -3,6 +3,8 @@ attribute vec2 aCenter;
 uniform float uTime;
 uniform sampler2D uNoiseTexture;
 
+#include ../Includes/getWorldUV.glsl
+
 vec2 getRotatePivot2d(vec2 uv, float rotation, vec2 pivot) {
   return vec2(cos(rotation) * (uv.x - pivot.x) + sin(rotation) * (uv.y - pivot.y) + pivot.x, cos(rotation) * (uv.y - pivot.y) - sin(rotation) * (uv.x - pivot.x) + pivot.y);
 }
@@ -15,9 +17,11 @@ void main() {
   vec4 modelPosition = modelMatrix * vec4(position, 1.);
   modelPosition.xz += newCenter;
 
-  float noise = texture(uNoiseTexture, uv).r;
+  vec2 worldUv = getWorldUV(modelPosition.xz);
 
-  float displacement = (sin(uTime * .002 + noise * 10.) * .25) * modelPosition.y;
+  float noise = texture(uNoiseTexture, worldUv).r;
+
+  float displacement = (sin(uTime * .002 + noise * 10.) * .25) * position.y;
   modelPosition.x += displacement;
   modelPosition.z += displacement;
 
