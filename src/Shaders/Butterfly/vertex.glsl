@@ -10,7 +10,7 @@ void main() {
 
     // animate wings
     float edge = distance(uv.x, .5);
-    float angle = uTime * .005;
+    float angle = uTime * .017862;
     float y = sin(angle) * edge;
     modifiedPosition.y += y;
 
