@@ -87,13 +87,15 @@ class Tree {
       const position = new THREE.Vector3(x, 0, z);
       this.positions.push(position);
 
+      const loc = random(x + z);
+
       const rotate = new THREE.Quaternion().setFromAxisAngle(
-        new THREE.Vector3(0, rand(), 0),
+        new THREE.Vector3(0, loc(), 0),
         Math.PI
       );
       this.rotations.push(rotate);
 
-      const scale = 0.5 + rand();
+      const scale = 0.5 + loc();
       this.scales[i] = new THREE.Vector3(scale, scale, scale);
     }
   }
