@@ -87,10 +87,10 @@ class Light {
     this.scene.add(this.sun);
 
     this.sunHelper = new THREE.DirectionalLightHelper(this.sun);
-    this.scene.add(this.sunHelper);
+    // this.scene.add(this.sunHelper);
 
     this.shadowhelper = new THREE.CameraHelper(this.sun.shadow.camera);
-    this.scene.add(this.shadowhelper);
+    // this.scene.add(this.shadowhelper);
   }
 
   _registerAmbientLight() {
