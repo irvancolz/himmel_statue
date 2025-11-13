@@ -22,6 +22,7 @@ export default class Renderer {
     this.instance.setSize(this.size.width, this.size.height);
     this.instance.render(this.scene, this.camera.instance);
     this.instance.shadowMap.enabled = true;
+    this.instance.shadowMap.type = THREE.PCFShadowMap;
   }
 
   update() {

@@ -93,8 +93,8 @@ class Bushes {
 
     this.material = new CustomShaderMaterial({
       uniforms: this.uniforms,
-      alphaTest: 0.55,
-      transparent: true,
+      alphaTest: 0.3,
+      // transparent: true,
       side: THREE.DoubleSide,
       vertexShader,
       fragmentShader,
@@ -102,11 +102,26 @@ class Bushes {
       alphaMap: this.resources.leaves_alpha_texture,
     });
 
+    this.customDepthMaterial = new THREE.MeshDepthMaterial({
+      alphaMap: this.resources.leaves_alpha_texture,
+      depthPacking: THREE.RGBADepthPacking,
+    });
+    this.customDepthMaterial.onBeforeCompile = (shader) => {
+      shader.fragmentShader = shader.fragmentShader.replace(
+        `#include <alphamap_fragment>`,
+        `
+        #include <alphamap_fragment>
+        if(diffuseColor.a < .6) discard;
+        `
+      );
+    };
+
     this.mesh = new THREE.InstancedMesh(
       this.geometry,
       this.material,
       this.count
     );
+    this.mesh.customDepthMaterial = this.customDepthMaterial;
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
     this.scene.add(this.mesh);

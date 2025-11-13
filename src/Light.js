@@ -54,7 +54,10 @@ class Light {
   }
 
   _moveSun() {
-    this.sun.position.copy(this.sunDirection);
+    this.sun.position
+      .copy(this.sunDirection)
+      .normalize()
+      .multiplyScalar(this.sunDistance);
   }
 
   init() {
@@ -73,8 +76,10 @@ class Light {
     this.sun.shadow.camera.bottom = -50;
     this.sun.shadow.camera.right = 50;
     this.sun.shadow.camera.left = -50;
-    this.sun.shadow.camera.far = 50;
-    this.sun.shadow.camera.near = -50;
+    this.sun.shadow.camera.far = 100;
+    this.sun.shadow.camera.near = 1;
+    this.sun.shadow.mapSize.set(2048, 2048);
+    this.sun.shadow.bias = -0.01;
     this.sun.castShadow = true;
 
     this._moveSun();
@@ -82,10 +87,10 @@ class Light {
     this.scene.add(this.sun);
 
     this.sunHelper = new THREE.DirectionalLightHelper(this.sun);
-    // this.scene.add(this.sunHelper);
+    this.scene.add(this.sunHelper);
 
     this.shadowhelper = new THREE.CameraHelper(this.sun.shadow.camera);
-    // this.scene.add(this.shadowhelper);
+    this.scene.add(this.shadowhelper);
   }
 
   _registerAmbientLight() {
