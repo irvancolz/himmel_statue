@@ -167,3 +167,54 @@ button {
   gap: 1em;
   text-transform: capitalize;
 }
+
+#socials {
+  position: fixed;
+  z-index: calc(var(--z-overlay) - 1);
+
+  bottom: 1rem;
+  right: 1rem;
+}
+
+#socials .btn {
+  padding: 0.5rem;
+  border-radius: 1000px;
+  background-color: var(--color-white);
+  box-shadow: var(--overlay-shadow);
+}
+
+#socials .icon {
+  display: block;
+  aspect-ratio: 1;
+  width: 1.5rem;
+}
+
+#socials .list {
+  position: absolute;
+  bottom: 100%;
+  translate: 0 -1rem;
+  pointer-events: none;
+}
+
+#socials .list:hover .social,
+#socials:focus-within .list .social {
+  pointer-events: all;
+}
+
+#socials .social {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 1000px;
+  background-color: var(--color-white);
+  box-shadow: var(--overlay-shadow);
+
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.55) var(--delay);
+  translate: 0 1rem;
+  opacity: 0;
+}
+
+#socials .list:hover .social,
+#socials:focus-within .list .social {
+  translate: 0 0;
+  opacity: 1;
+}
