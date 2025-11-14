@@ -7,7 +7,7 @@ class Fog {
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
 
-    this.exp = 0.015;
+    this.exp = 0.016;
     this.color = "#ccc";
 
     this.init();
